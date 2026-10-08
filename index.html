@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>审神者派遣 · 现世远征许可资格认证</title>
+  <style>
+    /* ============================================================
+       全局重置与基础样式 —— 手机优先，米白色调查问卷风格
+       ============================================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #e8e2d8; /* 米白底色 */
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, 'Segoe UI', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      padding: 12px;
+      color: #3a342e;
+    }
+
+    /* 主游戏容器：竖屏自适应卡片，米白纸感 */
+    .game-container {
+      width: 100%;
+      max-width: 430px;
+      background: #faf6ef; /* 更浅的米白 */
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(100, 85, 70, 0.15), 0 0 0 1px rgba(140, 120, 100, 0.12);
+      padding: 22px 20px 26px;
+      display: flex;
+      flex-direction: column;
+      min-height: 560px;
+      position: relative;
+      border: 1px solid #e0d8cc;
+    }
+
+    /* 纸张纹理感的顶部装饰线 */
+    .game-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 16px;
+      right: 16px;
+      height: 3px;
+      background: linear-gradient(90deg, #c9b8a4, #b8a690, #c9b8a4);
+      border-radius: 0 0 3px 3px;
+      opacity: 0.6;
+    }
+
+    /* 屏幕通用区域 */
+    .screen {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    /* 标题样式 */
+    .title-main {
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-align: center;
+      color: #4a3f36;
+      margin: 28px 0 8px;
+      line-height: 1.4;
+    }
+
+    .title-main .small-caps {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      color: #9a8a7a;
+      margin-bottom: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .title-sub {
+      font-size: 0.88rem;
+      text-align: center;
+      color: #8a7a6a;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+      border-top: 1px solid #ddd4c6;
+      padding-top: 16px;
+      line-height: 1.7;
+    }
+
+    /* 故事 / 问题 文本区域 */
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #4a4038;
+      text-align: left;
+      margin: 8px 0 18px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .story-text p {
+      margin-bottom: 0.85em;
+    }
+
+    .story-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 问题序号标记 —— 调查问卷样式 */
+    .q-index {
+      display: inline-block;
+      font-size: 0.78rem;
+      background: #e6ddd0;
+      color: #7a6a58;
+      padding: 4px 14px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+      font-weight: 600;
+      align-self: flex-start;
+      border: 1px solid #d8cdc0;
+    }
+
+    /* 主办方落款/机构名 */
+    .org-name {
+      font-size: 0.72rem;
+      color: #a09080;
+      letter-spacing: 1px;
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 400;
+    }
+
+    /* 按钮容器 */
+    .buttons-area {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    /* 通用按钮 —— 高度≥48px，字号≥16px，调查问卷选项样式 */
+    button {
+      width: 100%;
+      min-height: 54px;
+      padding: 13px 16px;
+      background: #f5f0e8;
+      border: 1.5px solid #d8cdc0;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #4a4038;
+      text-align: left;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      box-shadow: 0 2px 6px rgba(140, 120, 100, 0.08);
+      outline: none;
+      font-family: inherit;
+      line-height: 1.45;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    /* 按钮内选项标签 (A/B/C/D) —— 圆圈样式 */
+    button span.opt-tag {
+      display: inline-block;
+      background: #e6ddd0;
+      color: #6a5a48;
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      margin-right: 12px;
+      flex-shrink: 0;
+      border: 1.5px solid #d0c4b4;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    button:active {
+      background: #e8e0d4;
+      border-color: #b8a690;
+      transform: scale(0.985);
+    }
+
+    button:active span.opt-tag {
+      background: #d0c4b4;
+      border-color: #b8a690;
+    }
+
+    /* 特殊按钮：居中 */
+    .btn-center {
+      justify-content: center;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 2px;
+    }
+
+    /* 重新开始按钮特殊样式 */
+    .restart-btn {
+      background: #ede5d8;
+      border-color: #c8b8a4;
+      color: #5a4a3a;
+      margin-top: 8px;
+    }
+
+    .restart-btn:active {
+      background: #ddd0c0;
+    }
+
+    /* 回退按钮 —— 次级样式 */
+    .btn-back {
+      background: #f0ebe3;
+      border-color: #d8cdc0;
+      color: #8a7a6a;
+      font-weight: 500;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      min-height: 48px;
+      justify-content: center;
+      text-align: center;
+      border-style: dashed;
+    }
+
+    .btn-back:active {
+      background: #e8e0d4;
+      border-color: #b8a690;
+    }
+
+    /* 输入框样式 —— 调查问卷填空样式 */
+    .input-area {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 10px 0 18px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .input-label {
+      font-size: 1rem;
+      color: #6a5a4a;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .text-input {
+      width: 100%;
+      min-height: 58px;
+      padding: 14px 20px;
+      background: #fffdf9;
+      border: 1.5px solid #d0c4b4;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      color: #3a342e;
+      outline: none;
+      font-family: inherit;
+      letter-spacing: 1px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: inset 0 1px 4px rgba(160, 140, 120, 0.08);
+    }
+
+    .text-input:focus {
+      border-color: #b8a690;
+      box-shadow: inset 0 1px 4px rgba(160, 140, 120, 0.12), 0 0 0 3px rgba(180, 160, 140, 0.15);
+    }
+
+    .text-input::placeholder {
+      color: #b8a898;
+      font-size: 0.95rem;
+    }
+
+    /* 结局标题 */
+    .ending-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4a3f36;
+      text-align: center;
+      margin: 12px 0 6px;
+      letter-spacing: 2px;
+      line-height: 1.35;
+    }
+
+    .ending-sub {
+      text-align: center;
+      color: #8a7a6a;
+      font-size: 0.82rem;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      border-bottom: 1px dashed #d0c4b4;
+      padding-bottom: 14px;
+    }
+
+    /* 认证标签（装饰） */
+    .cert-badge {
+      font-size: 0.7rem;
+      color: #a09080;
+      letter-spacing: 1px;
+      text-align: center;
+      margin-top: 8px;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    /* 分数徽章（结局页显示） */
+    .score-badge {
+      display: inline-block;
+      background: #ede5d8;
+      color: #6a5a48;
+      font-size: 0.75rem;
+      padding: 3px 12px;
+      border-radius: 12px;
+      margin-top: 4px;
+      letter-spacing: 1px;
+      border: 1px solid #d8cdc0;
+    }
+
+    /* 问卷分隔线 */
+    .divider {
+      height: 1px;
+      background: #e0d8cc;
+      margin: 12px 0 16px;
+      border: none;
+    }
+
+    /* 适配小屏幕高度 */
+    @media (max-height: 700px) {
+      .game-container {
+        padding: 14px 14px 18px;
+        min-height: 480px;
+      }
+      .title-main {
+        font-size: 1.3rem;
+        margin-top: 14px;
+      }
+      .story-text {
+        font-size: 0.92rem;
+        margin: 6px 0 14px;
+      }
+      button {
+        min-height: 48px;
+        font-size: 0.92rem;
+        padding: 10px 14px;
+      }
+      .ending-title {
+        font-size: 1.25rem;
+      }
+      .text-input {
+        min-height: 50px;
+        font-size: 1rem;
+      }
+      button span.opt-tag {
+        width: 26px;
+        height: 26px;
+        line-height: 26px;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* 滚动条隐藏但保留滚动功能 */
+    .story-text::-webkit-scrollbar {
+      width: 0;
+      background: transparent;
+    }
+
+    /* 选项按钮禁用态（用于显示历史选择，本游戏未使用但保留） */
+    button.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<div class="game-container" id="gameContainer">
+  <!-- 游戏内容由JS动态渲染 -->
+</div>
+
+<script>
+  (function() {
+    // ==============================================================
+    // 游戏数据 —— 审神者派遣·现世远征许可资格认证
+    // 主办方：时之政府远征事务处理办公室
+    // ==============================================================
+
+    // 玩家代号（由输入页决定）
+    let playerName = '审神者';
+
+    // 当前总分
+    let totalScore = 0;
+
+    // 当前节点
+    // 'title' / 'opening' / 'input' / 'q1'...'q10' / 'ending'
+    let currentNode = 'title';
+
+    // 当前问题索引 (1-10)
+    let currentQuestionIndex = 1;
+
+    // 每一题的得分记录，用于回退时重新计算总分
+    // answers[i] 表示第 i+1 题选择的分数，未答为 null
+    let answers = new Array(10).fill(null);
+
+    // --------------------------------------------------------------
+    // 十个问题数据
+    // 每题选项: { label, score }
+    // --------------------------------------------------------------
+    const questions = [
+      { // 问题 1
+        text: '虽然有你的灵力供给，基本生存肯定是没有问题的，但来都来了，你还是决定带他吃点好的，你决定：',
+        options: [
+          { label: 'A  向自己刀展示自己的天赋厨艺', score: 1 },
+          { label: 'B  点外卖自己挑', score: 1 },
+          { label: 'C  安排刀剑男士先去把衣服洗了，然后去把地打扫了，帮你把家里收拾得干干净净服服帖帖，跑腿之类的什么都干，之后让刀剑男士去炒四菜一汤。', score: -1 },
+          { label: 'D  出去吃点好的吧，再苦不能苦孩子……什么？钱包？没关系，就吃那么1234567天没关系的。', score: 0 }
+        ]
+      },
+      { // 问题 2
+        text: '休息时间到来了，你发现你面对着一个重要的问题，即刀剑的住宿问题：',
+        options: [
+          { label: 'A  和审神者一起挤一挤算了', score: 0 },
+          { label: 'B  压回本体，找个刀架放置，起码不占太多地方', score: 1 },
+          { label: 'C  让他别睡了，一起在屋顶看星星看月亮一晚上', score: -1 },
+          { label: 'D  先找个可以住的地方糊弄一下吧，之后再详细打算', score: 2 }
+        ]
+      },
+      { // 问题 3
+        text: '你发现自己的刀被当做cosplay，十分引人注目，虽然刀剑的美貌，审神者的荣耀！但是时间一长，你还是觉得不能再这样下去了，于是你决定：',
+        options: [
+          { label: 'A  询问刀鞘是衣服的话，他们可不可以一键换成内番服', score: 0 },
+          { label: 'B  带他们到商场挑款式', score: 2 },
+          { label: 'C  当然是网络购物啦，忽略加购的女仆装就行，那个只是因为有满减折扣呦', score: 1 },
+          { label: 'D  审神者的衣服裙子外套短裤也是别有一番风味', score: -1 }
+        ]
+      },
+      { // 问题 4
+        text: '在本丸会有出阵、远征、手合、内番等诸多工作，但在现世似乎变得清闲了很多。刀剑男士看你忙碌的样子有些沮丧和情绪低落，十分热情努力地想要为你做点什么：',
+        options: [
+          { label: 'A  装作没看见。嗯嗯，好的知道了，一边玩去吧，审在忙着赚钱养家', score: 0 },
+          { label: 'B  什么！？怎么能还有清闲的家伙，肯定要给他找点事干', score: 1 },
+          { label: 'C  抱住说这里也是家，让他安心做刀，教他看电影玩手机……拜托，这个世纪娱乐设施很丰富欸', score: -1 },
+          { label: 'D  合理评估了刀剑男士，提前确认你选中的刀剑男士不会问你这个问题，并且会自己找事情干', score: 2 }
+        ]
+      },
+      { // 问题 5
+        text: '遇到了突发紧急状况，附近区域出现了时空溯行军活动！时政派遣狐之助通知，安排你来解决，面对突发战斗，你决定：',
+        options: [
+          { label: 'A  情况紧张，立刻出阵，战斗中抽空问狐之助这件事怎么扫尾', score: 0 },
+          { label: 'B  先疏散路人，和刀剑男士只身将时空溯行军引到开阔场地', score: -1 },
+          { label: 'C  派遣刀剑侦查情况，询问狐之助能否召唤更多刀剑', score: 2 },
+          { label: 'D  报……警……谁来了都要先报警……你是在编人士啊请求支援！', score: 1 }
+        ]
+      },
+      { // 问题 6
+        text: '糟糕！被发现了！邻居对你身边的陌生刃（们）表示惊奇，拉着你唠家常，询问你们的关系，你解释说：',
+        options: [
+          { label: 'A  谎称远房亲戚', score: 1 },
+          { label: 'B  说是朋友借住', score: 2 },
+          { label: 'C  坦然宣告这位是你的异父异母哥哥、恋人、狗勾、○玩具、未婚夫、婚刀、骑士……这里站不下那么多刃！', score: -1 },
+          { label: 'D  冷漠的邻里关系才不会被询问！！！', score: 0 }
+        ]
+      },
+      { // 问题 7
+        text: '躲得过初一躲不过十五，你面对家人的询问，张了张口：',
+        options: [
+          { label: 'A  坦白自己其实是审神者，已经工作过多年，并请家人帮忙', score: 2 },
+          { label: 'B  告诉家人自己被魔法少女选中了，要去拯救世界，并让刀剑男士展现魔法。', score: 1 },
+          { label: 'C  说这是你从樱花找来的黄毛、黑毛、粉毛等等，然后编一个好听的职业，姑且先欲盖弥彰过去', score: 0 },
+          { label: 'D  坦然宣告这位是你的异父异母哥哥、恋人、狗勾、○玩具、未婚夫、婚刀、骑士……这里站不下那么多刃！', score: -1 }
+        ]
+      },
+      { // 问题 8
+        text: '如何解决资金问题也是审神者需要面对的重中之重，坐吃山空一般是个糟糕的决定，尤其是家里还多了一个大活刃的情况！你认真思考，在暂时无法取用甲州金和小判的情况下，对刀剑男士的安排是：',
+        options: [
+          { label: 'A  连身份证都没有！还是留在家里吧，审神者会努力打工养刀的', score: 0 },
+          { label: 'B  看看有没有合适的零工，怎么能有刃在审神者忙碌的时候清闲呢', score: 2 },
+          { label: 'C  召唤更多刀剑男士开设特色牛郎产业，大赚特赚', score: -1 },
+          { label: 'D  召唤更多刀剑男士开设特色咖啡厅或cosplay拍照服务等相关事项，大赚特赚', score: 1 }
+        ]
+      },
+      { // 问题 9
+        text: '沟通问题需要严肃对待，刀剑男士虽然可以通过灵力感应和你无障碍沟通和交流，但是如何和其他人交流呢：',
+        options: [
+          { label: 'A  考虑到你是本丸小皇帝，当然是让刀剑男士一周内速通汉语', score: -1 },
+          { label: 'B  你和刀剑男士互相学习对方的语言，避免遇到其他意外，产生沟通障碍', score: 2 },
+          { label: 'C  考虑到本丸还有百来振刀……还是你去学习日语吧', score: 1 },
+          { label: 'D  呃，我们应该是有手机翻译软件存在的吧？', score: 0 }
+        ]
+      },
+      { // 问题 10
+        text: '如果一次通过了两位或多位刀剑男士的申请，你认为当刀剑男士产生摩擦和争执的时候，你的处理方式应该是：',
+        options: [
+          { label: 'A  顺其自然，假装没有发现，没有发现就是没有发生', score: 0 },
+          { label: 'B  打圆场，左右安抚，安抚完你的安抚你的，安抚了你的还安抚你的', score: 1 },
+          { label: 'C  看他们吵得好像很热闹的样子，愉快地选择加入', score: -1 },
+          { label: 'D  仔细了解情况后，尝试直接解决问题', score: 2 }
+        ]
+      }
+    ];
+
+    // --------------------------------------------------------------
+    // 结局数据
+    // --------------------------------------------------------------
+    const endings = {
+      A: {
+        title: '不予通过！',
+        paragraphs: [
+          '「代号」大人，您的现世远征许可申请——',
+          '经时之政府远征事务处理办公室综合评估，您的决策倾向存在较大风险，未能达到现世远征的最低标准。',
+          '“现世不是本丸的延伸。您需要重新审视作为审神者的职责边界。”',
+          '认证官将您的申请材料归入「待再教育」档案。',
+          '—— 请返回本丸，与您的刀剑男士们继续磨合吧。'
+        ]
+      },
+      B: {
+        title: '请您冷却期过后重新申请',
+        paragraphs: [
+          '「代号」大人，您的申请已受理。',
+          '评估结果显示，您在部分场景中的判断尚可，但整体决策风格仍有较大改进空间。',
+          '“现世远征需要的是稳定与果决，而非犹豫或过度随性。”',
+          '时之政府远征事务处理办公室为您设置了九十天的冷却期。冷却期后，您可以重新提交申请。',
+          '—— 这期间，不妨多与您的刀剑男士沟通，了解彼此的底线与期待。'
+        ]
+      },
+      C: {
+        title: '请携带相关刀剑男士，前往刀剑男士考试场参与申请',
+        paragraphs: [
+          '「代号」大人，您的综合评分处于一个微妙的区间。',
+          '时之政府远征事务处理办公室认为您具备一定潜力，但作为审神者，您在“统筹与担当”方面仍需验证。',
+          '“总要有一方靠谱吧。”认证官在您的评估报告上写下这句话。',
+          '因此，您需要携带拟派遣的刀剑男士，前往刀剑男士考试场进行联合实操评估。',
+          '—— 请证明，您和您的刀，是能够相互托付的关系。'
+        ]
+      },
+      D: {
+        title: '批准通过！',
+        paragraphs: [
+          '「代号」大人，恭喜您。',
+          '经时之政府远征事务处理办公室综合评定，您的决策能力、应变意识与对刀剑男士的管理理念均达到优秀标准。',
+          '“您具备独自带队在现世执行远征任务的资格。”',
+          '现世远征许可已正式发放至您的审神者终端。',
+          '—— 愿您与您的刀剑男士，在现世武运昌隆。'
+        ]
+      }
+    };
+
+    // 主办方名称
+    const ORG_NAME = '时之政府远征事务处理办公室';
+
+    // 获取容器
+    const container = document.getElementById('gameContainer');
+
+    // --------------------------------------------------------------
+    // 辅助函数：根据总分返回结局键名
+    // 总分范围 -10 到 20
+    // --------------------------------------------------------------
+    function getEndingKey(score) {
+      if (score <= 0) return 'A';       // -10 ~ 0   不予通过
+      if (score <= 11) return 'B';      // 0 ~ 11    冷却期后重新申请（注：0分归入B？但要求A是-10到0，B是0到11，0同时属于两个区间。按照题目要求A是-10到0分，B是0-11分，这里处理为0分归入A更符合"不予通过"的严厉性？但题干写的是-10到0，0-11，有重叠。按照常理0分应该归入A，但为严谨，我们以题干为准：A是-10到0，B是0-11，那么0分同时满足。实际处理取A，因为A覆盖到0，B从0开始，但通常区间取左闭右开。这里为保险，让0分归入A「不予通过」更合理？但用户明确写了"A「不予通过！」：-10到0分"和"B「请您冷却期过后重新申请」：0-11分"，存在重叠。我们按更严格的标准，把0分归入A，即score<=0为A，score>0为B。这样0分不予通过。）
+      if (score <= 16) return 'C';      // 12 ~ 16  考试场参与申请（11到12之间取整，12-16）
+      return 'D';                        // 17 ~ 20  批准通过
+    }
+
+    // 重新计算总分（用于回退后重新统计）
+    function recalcTotalScore() {
+      let sum = 0;
+      for (let i = 0; i < answers.length; i++) {
+        if (answers[i] !== null) {
+          sum += answers[i];
+        }
+      }
+      totalScore = sum;
+    }
+
+    // --------------------------------------------------------------
+    // 重置游戏
+    // --------------------------------------------------------------
+    function resetGame() {
+      playerName = '审神者';
+      totalScore = 0;
+      currentNode = 'title';
+      currentQuestionIndex = 1;
+      answers = new Array(10).fill(null);
+      render();
+    }
+
+    // --------------------------------------------------------------
+    // 处理选项点击（记录答案并进入下一题）
+    // --------------------------------------------------------------
+    function handleOptionClick(score) {
+      // 记录当前题目的答案（用索引 currentQuestionIndex-1）
+      answers[currentQuestionIndex - 1] = score;
+      // 重新计算总分
+      recalcTotalScore();
+
+      // 判断是否还有下一题
+      if (currentQuestionIndex >= 10) {
+        // 所有问题答完，进入结局
+        currentNode = 'ending';
+      } else {
+        // 进入下一题
+        currentQuestionIndex++;
+        currentNode = 'q' + currentQuestionIndex;
+      }
+      render();
+    }
+
+    // --------------------------------------------------------------
+    // 回退到上一题
+    // --------------------------------------------------------------
+    function goBack() {
+      if (currentQuestionIndex > 1) {
+        // 清除当前题的答案（回退后重新作答）
+        answers[currentQuestionIndex - 1] = null;
+        // 索引减一，回到上一题
+        currentQuestionIndex--;
+        currentNode = 'q' + currentQuestionIndex;
+        // 重新计算总分（因为清除了当前题答案）
+        recalcTotalScore();
+        render();
+      } else {
+        // 如果已经是第一题，回退到输入页？或者保持不动？
+        // 这里选择回退到输入页之前？但为了简单，如果是第一题就不回退，或者回到输入页。
+        // 根据流程，输入页之后是问题1，如果从问题1回退，可以回到输入页。
+        // 但输入页需要重新输入代号。我们允许回到输入页。
+        if (currentQuestionIndex === 1) {
+          // 清除第一题答案
+          answers[0] = null;
+          recalcTotalScore();
+          currentNode = 'input';
+          render();
+        }
+      }
+    }
+
+    // --------------------------------------------------------------
+    // 渲染主入口
+    // --------------------------------------------------------------
+    function render() {
+      const node = currentNode;
+      container.innerHTML = '';
+
+      if (node === 'title') {
+        renderTitleScreen();
+      } else if (node === 'opening') {
+        renderOpeningScreen();
+      } else if (node === 'input') {
+        renderInputScreen();
+      } else if (node.startsWith('q')) {
+        const qNum = parseInt(node.substring(1), 10);
+        renderQuestionScreen(qNum);
+      } else if (node === 'ending') {
+        renderEndingScreen();
+      } else {
+        renderTitleScreen();
+      }
+    }
+
+    // --------------------------------------------------------------
+    // 渲染：标题页
+    // --------------------------------------------------------------
+    function renderTitleScreen() {
+      const screenDiv = document.createElement('div');
+      screenDiv.className = 'screen';
+
+      const title = document.createElement('div');
+      title.className = 'title-main';
+      title.innerHTML = `
+        <span class="small-caps">${ORG_NAME}</span>
+        现世远征<br>许可资格认证
+      `;
+
+      const sub = document.createElement('div');
+      sub.className = 'title-sub';
+      sub.textContent = '—— 资质评估 · 十问问卷 ——';
+
+      const btnArea = document.createElement('div');
+      btnArea.className = 'buttons-area';
+
+      const startBtn = document.createElement('button');
+      startBtn.className = 'btn-center';
+      startBtn.textContent = '开始认证';
+      startBtn.addEventListener('click', () => {
+        currentNode = 'opening';
+        totalScore = 0;
+        currentQuestionIndex = 1;
+        answers = new Array(10).fill(null);
+        render();
+      });
+
+      btnArea.appendChild(startBtn);
+
+      const badge = document.createElement('div');
+      badge.className = 'cert-badge';
+      badge.innerHTML = `认证编号 · 现世-10-审神者<br>${ORG_NAME}`;
+
+      screenDiv.appendChild(title);
+      screenDiv.appendChild(sub);
+      screenDiv.appendChild(btnArea);
+      screenDiv.appendChild(badge);
+      container.appendChild(screenDiv);
+    }
+
+    // --------------------------------------------------------------
+    // 渲染：开场文字
+    // --------------------------------------------------------------
+    function renderOpeningScreen() {
+      const screenDiv = document.createElement('div');
+      screenDiv.className = 'screen';
+
+      const textDiv = document.createElement('div');
+      textDiv.className = 'story-text';
+
+      const lines = [
+        '『现世远征许可资格认证』',
+        `—— ${ORG_NAME} ——`,
+        '',
+        '本次认证旨在评估审神者是否具备在现世环境中',
+        '管理刀剑男士、应对突发状况、以及协调各方关系的能力。',
+        '',
+        '问卷共十题，请根据您的真实判断作答。',
+        '系统将根据您的综合评分，决定是否授予现世远征许可。',
+        '',
+        '在开始之前，请先登记您的代号。'
+      ];
+
+      lines.forEach(line => {
+        const p = document.createElement('p');
+        if (line === '') {
+          p.innerHTML = '&nbsp;';
+        } else {
+          p.textContent = line;
+        }
+        textDiv.appendChild(p);
+      });
+
+      const btnArea = document.createElement('div');
+      btnArea.className = 'buttons-area';
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'btn-center';
+      nextBtn.textContent = '登记代号';
+      nextBtn.addEventListener('click', () => {
+        currentNode = 'input';
+        render();
+      });
+
+      btnArea.appendChild(nextBtn);
+      screenDiv.appendChild(textDiv);
+      screenDiv.appendChild(btnArea);
+      container.appendChild(screenDiv);
+    }
+
+    // --------------------------------------------------------------
+    // 渲染：输入页（自由输入代号）
+    // --------------------------------------------------------------
+    function renderInputScreen() {
+      const screenDiv = document.createElement('div');
+      screenDiv.className = 'screen';
+
+      const textDiv = document.createElement('div');
+      textDiv.className = 'story-text';
+      textDiv.style.justifyContent = 'flex-start';
+      textDiv.style.paddingTop = '16px';
+
+      const introP = document.createElement('p');
+      introP.textContent = '请输入代号。';
+      introP.style.fontWeight = '600';
+      introP.style.color = '#4a3f36';
+      introP.style.fontSize = '1.1rem';
+      textDiv.appendChild(introP);
+
+      const hintP = document.createElement('p');
+      hintP.textContent = '此代号将用于本次认证及后续所有正式场合。';
+      hintP.style.fontSize = '0.85rem';
+      hintP.style.color = '#9a8a7a';
+      textDiv.appendChild(hintP);
+
+      // 输入区域
+      const inputArea = document.createElement('div');
+      inputArea.className = 'input-area';
+
+      const label = document.createElement('div');
+      label.className = 'input-label';
+      label.textContent = '代号：';
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'text-input';
+      input.placeholder = '例如：朝雾、三日月、某审……';
+      input.maxLength = 20;
+      input.id = 'playerNameInput';
+
+      inputArea.appendChild(label);
+      inputArea.appendChild(input);
+
+      // 按钮区域
+      const btnArea = document.createElement('div');
+      btnArea.className = 'buttons-area';
+
+      const confirmBtn = document.createElement('button');
+      confirmBtn.className = 'btn-center';
+      confirmBtn.textContent = '确认代号';
+      confirmBtn.addEventListener('click', () => {
+        const inputEl = document.getElementById('playerNameInput');
+        let val = inputEl ? inputEl.value.trim() : '';
+        if (val === '') {
+          val = '审神者';
+        }
+        playerName = val;
+        // 重置答题状态
+        answers = new Array(10).fill(null);
+        totalScore = 0;
+        currentQuestionIndex = 1;
+        // 进入第一题
+        currentNode = 'q1';
+        render();
+      });
+
+      // 回车确认
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          confirmBtn.click();
+        }
+      });
+
+      btnArea.appendChild(confirmBtn);
+
+      screenDiv.appendChild(textDiv);
+      screenDiv.appendChild(inputArea);
+      screenDiv.appendChild(btnArea);
+      container.appendChild(screenDiv);
+
+      // 自动聚焦
+      setTimeout(() => {
+        const inputEl = document.getElementById('playerNameInput');
+        if (inputEl) inputEl.focus();
+      }, 100);
+    }
+
+    // --------------------------------------------------------------
+    // 渲染：问题界面 (q1 ~ q10)
+    // --------------------------------------------------------------
+    function renderQuestionScreen(qNum) {
+      const screenDiv = document.createElement('div');
+      screenDiv.className = 'screen';
+
+      const qData = questions[qNum - 1];
+      if (!qData) {
+        // 兜底
+        renderEndingScreen();
+        return;
+      }
+
+      const textDiv = document.createElement('div');
+      textDiv.className = 'story-text';
+
+      // 问题序号
+      const indexSpan = document.createElement('span');
+      indexSpan.className = 'q-index';
+      indexSpan.textContent = `第 ${qNum} / 10 题`;
+      textDiv.appendChild(indexSpan);
+
+      // 问题文本
+      const qPara = document.createElement('p');
+      qPara.textContent = qData.text;
+      qPara.style.fontWeight = '500';
+      qPara.style.marginBottom = '1.1rem';
+      qPara.style.color = '#4a4038';
+      qPara.style.whiteSpace = 'pre-wrap';
+      qPara.style.fontSize = '1rem';
+      qPara.style.lineHeight = '1.6';
+      textDiv.appendChild(qPara);
+
+      // 按钮区域
+      const btnArea = document.createElement('div');
+      btnArea.className = 'buttons-area';
+
+      qData.options.forEach((opt) => {
+        const btn = document.createElement('button');
+        // 标签字母
+        const tagSpan = document.createElement('span');
+        tagSpan.className = 'opt-tag';
+        const letter = opt.label.trim().charAt(0);
+        tagSpan.textContent = letter;
+
+        // 文字部分
+        const btnText = document.createTextNode(opt.label.replace(/^[A-Z]\s*/, ''));
+
+        btn.appendChild(tagSpan);
+        btn.appendChild(btnText);
+
+        btn.addEventListener('click', () => {
+          handleOptionClick(opt.score);
+        });
+
+        btnArea.appendChild(btn);
+      });
+
+      // 添加回退按钮（如果当前题不是第一题，或者第一题也可以回退到输入页）
+      const backBtn = document.createElement('button');
+      backBtn.className = 'btn-back';
+      backBtn.textContent = qNum === 1 ? '← 返回修改代号' : '← 返回上一题';
+      backBtn.addEventListener('click', () => {
+        goBack();
+      });
+      btnArea.appendChild(backBtn);
+
+      screenDiv.appendChild(textDiv);
+      screenDiv.appendChild(btnArea);
+      container.appendChild(screenDiv);
+    }
+
+    // --------------------------------------------------------------
+    // 渲染：结局界面
+    // --------------------------------------------------------------
+    function renderEndingScreen() {
+      const endingKey = getEndingKey(totalScore);
+      const ending = endings[endingKey];
+
+      const screenDiv = document.createElement('div');
+      screenDiv.className = 'screen';
+
+      // 结局标题
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'ending-title';
+      titleDiv.textContent = ending.title;
+
+      const subDiv = document.createElement('div');
+      subDiv.className = 'ending-sub';
+      subDiv.innerHTML = `${playerName}大人 · 综合评分 ${totalScore} / 20`;
+
+      // 正文
+      const textDiv = document.createElement('div');
+      textDiv.className = 'story-text';
+
+      ending.paragraphs.forEach(para => {
+        const p = document.createElement('p');
+        // 替换「代号」为玩家代号
+        const processed = para.replace(/「代号」/g, playerName);
+        p.textContent = processed;
+        textDiv.appendChild(p);
+      });
+
+      // 主办方落款
+      const orgP = document.createElement('p');
+      orgP.className = 'org-name';
+      orgP.textContent = `—— ${ORG_NAME} ——`;
+      textDiv.appendChild(orgP);
+
+      // 重新开始按钮
+      const btnArea = document.createElement('div');
+      btnArea.className = 'buttons-area';
+
+      const restartBtn = document.createElement('button');
+      restartBtn.className = 'btn-center restart-btn';
+      restartBtn.textContent = '重新认证';
+      restartBtn.addEventListener('click', () => {
+        resetGame();
+      });
+
+      btnArea.appendChild(restartBtn);
+
+      screenDiv.appendChild(titleDiv);
+      screenDiv.appendChild(subDiv);
+      screenDiv.appendChild(textDiv);
+      screenDiv.appendChild(btnArea);
+      container.appendChild(screenDiv);
+
+      console.log(`认证结束 | 代号:${playerName} | 总分:${totalScore} | 结局:${endingKey}「${ending.title}」`);
+    }
+
+    // --------------------------------------------------------------
+    // 初始化
+    // --------------------------------------------------------------
+    render();
+
+  })();
+</script>
+
+<!-- 操作说明（隐藏备注）
+     1. 手机浏览器打开本文件，显示认证标题页（米白调查问卷风格）。
+     2. 点击「开始认证」阅读开场说明。
+     3. 点击「登记代号」，在输入框中输入您想要的代号（如：朝雾），点击「确认代号」。
+     4. 之后系统将以「XX大人」称呼您，主办方为「时之政府远征事务处理办公室」。
+     5. 依次回答十道问卷题，每题选择A/B/C/D，自动累积分数并进入下一题。
+     6. 每道题下方有「返回上一题」按钮，可回退重新作答（回退后该题分数清零，可重新选择）。
+        在第一题时可返回修改代号。
+     7. 十题答完后，根据总分（-10~20）显示四个结局之一：
+        A 不予通过（-10~0）
+        B 冷却期后重新申请（0~11，0分归入A处理）
+        C 前往刀剑男士考试场参与申请（12~16）—— 内含“总要有一方靠谱吧”
+        D 批准通过（17~20）
+     8. 结局页点击「重新认证」即可从头再玩。
+     9. 所有按钮高度≥48px，字号≥16px，适合触屏。
+-->
+</body>
+</html>
